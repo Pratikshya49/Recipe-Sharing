@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 const difficultyStyles = {
   Easy: 'bg-green-100 text-green-700 ring-1 ring-green-200',
   Medium: 'bg-amber-100 text-amber-700 ring-1 ring-amber-200',
@@ -6,15 +8,30 @@ const difficultyStyles = {
 
 export default function RecipeCard({ recipe }) {
   const badgeClass = difficultyStyles[recipe.difficulty] || 'bg-slate-100 text-slate-700 ring-1 ring-slate-200'
+  const [imageUrl, setImageUrl] = useState(null)
+
+  useEffect(() => {
+    let cancelled = false
+    fetch(`https://foodish-api.com/api/images/${recipe.imageCategory}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled) setImageUrl(data.image)
+      })
+      .catch(() => {})
+    return () => {
+      cancelled = true
+    }
+  }, [recipe.imageCategory])
 
   return (
     <div className="flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-      {/* Image placeholder */}
-      <div className="flex h-36 items-center justify-center bg-slate-100 text-slate-300">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-10 w-10">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5l4.5-4.5a2 2 0 012.8 0L15 16.5M14 13l1.7-1.7a2 2 0 012.8 0L21 14M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-          <circle cx="8.5" cy="8.5" r="1.5" />
-        </svg>
+      {/* Food image */}
+      <div className="h-36 w-full overflow-hidden bg-slate-100">
+        {imageUrl ? (
+          <img src={imageUrl} alt={recipe.title} className="h-full w-full object-cover" />
+        ) : (
+          <div className="h-full w-full animate-pulse bg-slate-200" />
+        )}
       </div>
 
       <div className="flex flex-1 flex-col justify-between p-5">

@@ -9,6 +9,7 @@ const sampleRecipes = [
     cuisine: 'Italian',
     cookTime: '35 min',
     difficulty: 'Medium',
+    imageCategory: 'pizza',
   },
   {
     id: 2,
@@ -16,6 +17,7 @@ const sampleRecipes = [
     cuisine: 'Indian',
     cookTime: '50 min',
     difficulty: 'Hard',
+    imageCategory: 'butter-chicken',
   },
   {
     id: 3,
@@ -23,6 +25,7 @@ const sampleRecipes = [
     cuisine: 'American',
     cookTime: '10 min',
     difficulty: 'Easy',
+    imageCategory: 'burger',
   },
   {
     id: 4,
@@ -30,6 +33,7 @@ const sampleRecipes = [
     cuisine: 'Thai',
     cookTime: '30 min',
     difficulty: 'Medium',
+    imageCategory: 'pasta',
   },
   {
     id: 5,
@@ -37,6 +41,7 @@ const sampleRecipes = [
     cuisine: 'Greek',
     cookTime: '15 min',
     difficulty: 'Easy',
+    imageCategory: 'rice',
   },
 ]
 
