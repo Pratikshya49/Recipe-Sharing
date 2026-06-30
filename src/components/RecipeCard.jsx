@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react'
-
 const difficultyStyles = {
   Easy: 'bg-green-100 text-green-700 ring-1 ring-green-200',
   Medium: 'bg-amber-100 text-amber-700 ring-1 ring-amber-200',
@@ -8,30 +6,12 @@ const difficultyStyles = {
 
 export default function RecipeCard({ recipe }) {
   const badgeClass = difficultyStyles[recipe.difficulty] || 'bg-slate-100 text-slate-700 ring-1 ring-slate-200'
-  const [imageUrl, setImageUrl] = useState(null)
-
-  useEffect(() => {
-    let cancelled = false
-    fetch(`https://foodish-api.com/api/images/${recipe.imageCategory}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (!cancelled) setImageUrl(data.image)
-      })
-      .catch(() => {})
-    return () => {
-      cancelled = true
-    }
-  }, [recipe.imageCategory])
 
   return (
     <div className="flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
       {/* Food image */}
       <div className="h-36 w-full overflow-hidden bg-slate-100">
-        {imageUrl ? (
-          <img src={imageUrl} alt={recipe.title} className="h-full w-full object-cover" />
-        ) : (
-          <div className="h-full w-full animate-pulse bg-slate-200" />
-        )}
+        <img src={recipe.image} alt={recipe.title} className="h-full w-full object-cover" />
       </div>
 
       <div className="flex flex-1 flex-col justify-between p-5">

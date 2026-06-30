@@ -9,7 +9,7 @@ const sampleRecipes = [
     cuisine: 'Italian',
     cookTime: '35 min',
     difficulty: 'Medium',
-    imageCategory: 'pizza',
+    image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Eq_it-na_pizza-margherita_sep2005_sml.jpg?width=600',
   },
   {
     id: 2,
@@ -17,7 +17,7 @@ const sampleRecipes = [
     cuisine: 'Indian',
     cookTime: '50 min',
     difficulty: 'Hard',
-    imageCategory: 'butter-chicken',
+    image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Chicken_Tikka_Masala.jpg?width=600',
   },
   {
     id: 3,
@@ -25,7 +25,7 @@ const sampleRecipes = [
     cuisine: 'American',
     cookTime: '10 min',
     difficulty: 'Easy',
-    imageCategory: 'burger',
+    image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Avocado_toast.jpg?width=600',
   },
   {
     id: 4,
@@ -33,7 +33,7 @@ const sampleRecipes = [
     cuisine: 'Thai',
     cookTime: '30 min',
     difficulty: 'Medium',
-    imageCategory: 'pasta',
+    image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Pad_Thai.JPG?width=600',
   },
   {
     id: 5,
@@ -41,7 +41,7 @@ const sampleRecipes = [
     cuisine: 'Greek',
     cookTime: '15 min',
     difficulty: 'Easy',
-    imageCategory: 'rice',
+    image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Greek_salad.jpg?width=600',
   },
 ]
 
