@@ -13,7 +13,7 @@ function Header() {
     <header className="bg-orange-700">
       <nav className="max-w-6xl mx-auto flex items-center justify-between px-6 h-16">
         <Link to="/" className="text-2xl font-bold text-white tracking-tight">
-          🍲 Recipe<span className="text-orange-200">Hub</span>
+           Recipe<span className="text-orange-200">Hub</span>
         </Link>
         <div className="flex items-center">
           <NavLink to="/" end className={linkClass}>

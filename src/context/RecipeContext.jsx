@@ -41,9 +41,25 @@ export function RecipeProvider({ children }) {
 
   const addRecipe = (newRecipe) => {
     setRecipes((prev) => [
-      { id: Date.now(), category: "Dinner", difficulty: "Easy", prepTime: 0, cookTime: 0, ...newRecipe },
+      {
+        id: Date.now(),
+        category: "Dinner",
+        cuisine: "General",
+        difficulty: "Easy",
+        cookTime: 0,
+        ingredients: [],
+        steps: [],
+        image: "",
+        isUserAdded: true,
+        ...newRecipe
+      },
       ...prev,
     ]);
+  };
+
+  const deleteRecipe = (id) => {
+    setRecipes((prev) => prev.filter((r) => r.id !== id));
+    setBookmarks((prev) => prev.filter((rId) => rId !== id));
   };
 
   const value = {
@@ -54,6 +70,7 @@ export function RecipeProvider({ children }) {
     planner,
     setPlanner,
     addRecipe,
+    deleteRecipe,
   };
 
   return <RecipeContext.Provider value={value}>{children}</RecipeContext.Provider>;

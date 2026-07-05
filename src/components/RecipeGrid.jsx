@@ -1,9 +1,6 @@
+import { useState, useEffect } from 'react';
 import RecipeCard from './RecipeCard';
 
-// RecipeGrid only receives what it actually needs to do its job:
-// the list of recipes to display and the filter state/setters (these
-// genuinely belong to the parent Home page, since Home owns the search
-// bar). Bookmarks are handled inside RecipeCard via Context instead.
 export default function RecipeGrid({
   recipes,
   filteredRecipes,
@@ -18,20 +15,27 @@ export default function RecipeGrid({
   timeFilter,
   setTimeFilter,
 }) {
+  // 6. State to hold calculated statistics
+  const [totalCount, setTotalCount] = useState(0);
+  const [avgCookTime, setAvgCookTime] = useState(0);
 
-  // Calculate top statistics
-  const totalRecipes = recipes.length;
-  const avgCookTime = totalRecipes > 0
-    ? Math.round(recipes.reduce((acc, curr) => acc + (curr.prepTime || 0) + (curr.cookTime || 0), 0) / totalRecipes)
-    : 0;
+  // 6. useEffect to compute total count and average cook time for the dashboard
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setTotalCount(recipes.length);
+    
+    const totalCookTime = recipes.reduce((acc, curr) => acc + (Number(curr.cookTime) || 0), 0);
+    const avg = recipes.length > 0 ? Math.round(totalCookTime / recipes.length) : 0;
+    
+    setAvgCookTime(avg);
+  }, [recipes]);
+
+  // Count bookmarked and weekly planner slots
   const bookmarkCount = bookmarks.length;
-
-  // Count assigned meal planner slots
   const mealPlanCount = Object.values(planner).reduce((acc, dayMeals) => {
     return acc + Object.values(dayMeals).filter(Boolean).length;
   }, 0);
 
-  // Available categories for filter tags
   const categories = ['All', 'Breakfast', 'Lunch', 'Dinner', 'Dessert', 'Snacks'];
 
   const handleResetFilters = () => {
@@ -43,84 +47,92 @@ export default function RecipeGrid({
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-8">
-      {/* Top Stats Overview Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <div className="bg-white rounded-xl border border-orange-100 p-4 flex items-center gap-3 shadow-sm">
-          <div className="w-10 h-10 rounded-lg bg-orange-100 text-orange-700 flex items-center justify-center text-lg">🍽️</div>
+      {/* Dashboard Stats Cards */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+        <div className="bg-gradient-to-br from-white to-orange-50/20 rounded-2xl border border-orange-100/60 p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-all duration-300">
+          <div className="w-12 h-12 rounded-xl bg-orange-500/10 text-orange-600 flex items-center justify-center text-xl">🍽️</div>
           <div>
-            <span className="block text-xl font-bold text-gray-900">{totalRecipes}</span>
-            <span className="block text-xs text-gray-500">Total Recipes</span>
+            <span className="block text-2xl font-black text-gray-900 leading-tight">{totalCount}</span>
+            <span className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mt-0.5">Total Recipes</span>
           </div>
         </div>
-        <div className="bg-white rounded-xl border border-orange-100 p-4 flex items-center gap-3 shadow-sm">
-          <div className="w-10 h-10 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center text-lg">⏱️</div>
+
+        <div className="bg-gradient-to-br from-white to-emerald-50/20 rounded-2xl border border-emerald-100/60 p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-all duration-300">
+          <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center text-xl">⏱️</div>
           <div>
-            <span className="block text-xl font-bold text-gray-900">{avgCookTime} min</span>
-            <span className="block text-xs text-gray-500">Avg. Cook Time</span>
+            <span className="block text-2xl font-black text-gray-900 leading-tight">{avgCookTime} min</span>
+            <span className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mt-0.5">Avg. Cook Time</span>
           </div>
         </div>
-        <div className="bg-white rounded-xl border border-orange-100 p-4 flex items-center gap-3 shadow-sm">
-          <div className="w-10 h-10 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center text-lg">📅</div>
+
+        <div className="bg-gradient-to-br from-white to-amber-50/20 rounded-2xl border border-amber-100/60 p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-all duration-300">
+          <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-xl">📅</div>
           <div>
-            <span className="block text-xl font-bold text-gray-900">{mealPlanCount} meals</span>
-            <span className="block text-xs text-gray-500">Weekly Schedule</span>
+            <span className="block text-2xl font-black text-gray-900 leading-tight">{mealPlanCount} meals</span>
+            <span className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mt-0.5">Meal Planner</span>
           </div>
         </div>
-        <div className="bg-white rounded-xl border border-orange-100 p-4 flex items-center gap-3 shadow-sm">
-          <div className="w-10 h-10 rounded-lg bg-rose-100 text-rose-700 flex items-center justify-center text-lg">⭐</div>
+
+        <div className="bg-gradient-to-br from-white to-rose-50/20 rounded-2xl border border-rose-100/60 p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-all duration-300">
+          <div className="w-12 h-12 rounded-xl bg-rose-500/10 text-rose-600 flex items-center justify-center text-xl">⭐</div>
           <div>
-            <span className="block text-xl font-bold text-gray-900">{bookmarkCount} saved</span>
-            <span className="block text-xs text-gray-500">Bookmarks</span>
+            <span className="block text-2xl font-black text-gray-900 leading-tight">{bookmarkCount} saved</span>
+            <span className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mt-0.5">Bookmarks</span>
           </div>
         </div>
       </div>
 
-      {/* Search & Filters Panel */}
-      <div className="bg-white rounded-xl border border-orange-100 p-4 mb-6 shadow-sm">
-        <div className="flex flex-col md:flex-row gap-3 mb-4">
-          <input
-            type="text"
-            placeholder="Search recipes, ingredients..."
-            className="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 text-sm"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+      {/* Control Panel (Search & Filters) */}
+      <div className="bg-white rounded-2xl border border-orange-100/50 p-6 mb-8 shadow-sm">
+        <div className="flex flex-col md:flex-row gap-4 mb-5">
+          <div className="flex-1 relative">
+            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm">🔍</span>
+            <input
+              type="text"
+              placeholder="Search recipes by title..."
+              className="w-full pl-10 pr-4 py-2.5 border border-gray-150 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-sm transition-all duration-200"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
 
-          <select
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm"
-            value={difficultyFilter}
-            onChange={(e) => setDifficultyFilter(e.target.value)}
-            aria-label="Difficulty Filter"
-          >
-            <option value="All">All Difficulties</option>
-            <option value="Easy">Easy</option>
-            <option value="Medium">Medium</option>
-            <option value="Hard">Hard</option>
-          </select>
+          <div className="flex flex-wrap sm:flex-nowrap gap-3">
+            <select
+              className="w-full sm:w-auto px-4 py-2.5 border border-gray-150 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 cursor-pointer"
+              value={difficultyFilter}
+              onChange={(e) => setDifficultyFilter(e.target.value)}
+              aria-label="Difficulty Filter"
+            >
+              <option value="All">All Difficulties</option>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
 
-          <select
-            className="px-3 py-2 border border-gray-200 rounded-lg text-sm"
-            value={timeFilter}
-            onChange={(e) => setTimeFilter(e.target.value)}
-            aria-label="Time Filter"
-          >
-            <option value="All">All Cook Times</option>
-            <option value="15">&lt; 15 mins</option>
-            <option value="30">&lt; 30 mins</option>
-            <option value="45">&lt; 45 mins</option>
-            <option value="60">1 hour+</option>
-          </select>
+            <select
+              className="w-full sm:w-auto px-4 py-2.5 border border-gray-150 rounded-xl text-sm bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 cursor-pointer"
+              value={timeFilter}
+              onChange={(e) => setTimeFilter(e.target.value)}
+              aria-label="Time Filter"
+            >
+              <option value="All">All Cook Times</option>
+              <option value="10">&le; 10 mins</option>
+              <option value="20">&le; 20 mins</option>
+              <option value="30">&le; 30 mins</option>
+              <option value="60">&le; 60 mins</option>
+            </select>
+          </div>
         </div>
 
-        {/* Quick Click Category Filter Tags */}
-        <div className="flex flex-wrap gap-2">
+        {/* Category Filters */}
+        <div className="flex flex-wrap gap-2 pt-1 border-t border-gray-50">
           {categories.map((cat) => (
             <button
               key={cat}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
+              className={`px-4 py-2 rounded-full text-xs font-semibold border transition-all duration-200 cursor-pointer ${
                 selectedCategory === cat
-                  ? 'bg-orange-600 text-white border-orange-600'
-                  : 'bg-white text-gray-600 border-gray-200 hover:border-orange-300'
+                  ? 'bg-orange-600 text-white border-orange-600 shadow-sm shadow-orange-100'
+                  : 'bg-gray-50/50 text-gray-600 border-gray-200/80 hover:bg-orange-50/40 hover:border-orange-200'
               }`}
               onClick={() => setSelectedCategory(cat)}
             >
@@ -130,14 +142,14 @@ export default function RecipeGrid({
         </div>
       </div>
 
-      {/* Grid List Title */}
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-semibold text-gray-900">
-          {filteredRecipes.length} {filteredRecipes.length === 1 ? 'Recipe' : 'Recipes'} found
+      {/* Grid Results Header */}
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-bold text-gray-800 tracking-tight">
+          {filteredRecipes.length} {filteredRecipes.length === 1 ? 'Recipe' : 'Recipes'} Available
         </h2>
       </div>
 
-      {/* Grid of cards */}
+      {/* Grid of Recipe Cards */}
       {filteredRecipes.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredRecipes.map((recipe) => (
@@ -145,15 +157,15 @@ export default function RecipeGrid({
           ))}
         </div>
       ) : (
-        <div className="text-center py-16 bg-white rounded-xl border border-orange-100">
-          <div className="text-4xl mb-2">🔍</div>
-          <h3 className="font-semibold text-gray-800">No recipes matched your criteria</h3>
-          <p className="text-sm text-gray-500 mb-4">Try tweaking your filters or resetting the search keywords.</p>
+        <div className="text-center py-20 bg-white rounded-2xl border border-orange-100/50 p-8 shadow-sm">
+          <div className="text-5xl mb-4">🔍</div>
+          <h3 className="font-bold text-gray-800 text-lg">No recipes found</h3>
+          <p className="text-sm text-gray-500 mb-6 mt-1">We couldn't find any recipes matching your current filters.</p>
           <button
-            className="px-4 py-2 bg-orange-100 text-orange-700 rounded-lg text-sm font-medium hover:bg-orange-200"
+            className="px-5 py-2.5 bg-orange-50 hover:bg-orange-100 text-orange-700 rounded-xl text-sm font-semibold transition cursor-pointer"
             onClick={handleResetFilters}
           >
-            Reset Filters
+            Clear Filters
           </button>
         </div>
       )}

@@ -15,13 +15,11 @@ function Home() {
 
   // Array method practice: filter() combines all active filters.
   const filteredRecipes = recipes.filter((recipe) => {
-    const matchesSearch =
-      recipe.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      recipe.ingredients.some((ing) => ing.toLowerCase().includes(searchQuery.toLowerCase()));
+    const matchesSearch = recipe.title.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === "All" || recipe.category === selectedCategory;
     const matchesDifficulty = difficultyFilter === "All" || recipe.difficulty === difficultyFilter;
     const matchesTime =
-      timeFilter === "All" || recipe.prepTime + recipe.cookTime <= Number(timeFilter);
+      timeFilter === "All" || recipe.cookTime <= Number(timeFilter);
 
     return matchesSearch && matchesCategory && matchesDifficulty && matchesTime;
   });
