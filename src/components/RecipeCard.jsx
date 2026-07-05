@@ -1,38 +1,46 @@
-const difficultyStyles = {
-  Easy: 'bg-green-100 text-green-700 ring-1 ring-green-200',
-  Medium: 'bg-amber-100 text-amber-700 ring-1 ring-amber-200',
-  Hard: 'bg-red-100 text-red-700 ring-1 ring-red-200',
-}
+import { Link } from "react-router-dom";
+import { useRecipes } from "../context/RecipeContext";
 
-export default function RecipeCard({ recipe }) {
-  const badgeClass = difficultyStyles[recipe.difficulty] || 'bg-slate-100 text-slate-700 ring-1 ring-slate-200'
+// Note: this card pulls bookmark state straight from Context instead of
+// receiving it as a prop from RecipeGrid -> RecipeCard. That is the
+// "prop drilling" fix described in the Week 2 tutorial: RecipeGrid never
+// needs to know about bookmarks at all.
+function RecipeCard({ recipe }) {
+  const { bookmarks, toggleBookmark } = useRecipes();
+  const isBookmarked = bookmarks.includes(recipe.id);
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-      {/* Food image */}
-      <div className="h-36 w-full overflow-hidden bg-slate-100">
-        <img src={recipe.image} alt={recipe.title} className="h-full w-full object-cover" />
+    <div className="bg-white rounded-xl shadow-sm border border-orange-100 overflow-hidden flex flex-col hover:shadow-md transition-shadow">
+      <div className="relative">
+        <img src={recipe.image} alt={recipe.title} className="w-full h-40 object-cover" />
+        <button
+          onClick={() => toggleBookmark(recipe.id)}
+          aria-label="Toggle bookmark"
+          className={`absolute top-2 right-2 w-9 h-9 rounded-full flex items-center justify-center text-lg shadow ${
+            isBookmarked ? "bg-orange-600 text-white" : "bg-white/90 text-orange-600"
+          }`}
+        >
+          {isBookmarked ? "★" : "☆"}
+        </button>
+        <span className="absolute bottom-2 left-2 text-xs font-medium bg-white/90 text-orange-700 px-2 py-0.5 rounded-full">
+          {recipe.category}
+        </span>
       </div>
 
-      <div className="flex flex-1 flex-col justify-between p-5">
-        <div>
-          <div className="mb-2 flex items-start justify-between gap-3">
-            <h3 className="text-base font-semibold text-slate-800 line-clamp-1">{recipe.title}</h3>
-            <span className={`shrink-0 rounded-full px-2.5 py-1 text-xs font-medium ${badgeClass}`}>
-              {recipe.difficulty}
-            </span>
-          </div>
-          <p className="text-sm text-slate-500">{recipe.cuisine} cuisine</p>
-        </div>
-
-        <div className="mt-4 flex items-center gap-1.5 border-t border-slate-100 pt-3 text-xs text-slate-400">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3.5 w-3.5">
-            <circle cx="12" cy="12" r="9" />
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 7v5l3 3" />
-          </svg>
-          {recipe.cookTime}
-        </div>
+      <div className="p-4 flex flex-col flex-1">
+        <h3 className="font-semibold text-gray-900 mb-1 line-clamp-1">{recipe.title}</h3>
+        <p className="text-xs text-gray-500 mb-3">
+          {recipe.prepTime + recipe.cookTime} min &middot; {recipe.difficulty}
+        </p>
+        <Link
+          to={`/recipe/${recipe.id}`}
+          className="mt-auto text-center text-sm font-medium bg-orange-600 hover:bg-orange-700 text-white rounded-lg py-2 transition-colors"
+        >
+          View Recipe
+        </Link>
       </div>
     </div>
-  )
+  );
 }
+
+export default RecipeCard;
