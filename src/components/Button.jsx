@@ -1,3 +1,6 @@
+// Reusable Button component.
+// Demonstrates PROPS (Week 2): parent passes `text` and `type` down,
+// and this component uses them to change its own appearance/behaviour.
 function Button({ text, onClick, type = "button", variant = "primary", disabled = false }) {
   const variantStyles = {
     primary: "bg-orange-600 hover:bg-orange-700 text-white",
