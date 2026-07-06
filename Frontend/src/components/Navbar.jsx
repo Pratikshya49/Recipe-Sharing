@@ -34,7 +34,7 @@ export default function Navbar({ active: propActive, onChange }) {
     <nav className="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b border-orange-100/50 shadow-sm transition-all duration-300">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Link to="/" className="flex items-center gap-2 group">
-          <span className="text-2xl transition-transform duration-300 group-hover:rotate-12">🍳</span>
+          <span className="text-2xl transition-transform duration-300 group-hover:rotate-12">🍴</span>
           <span className="text-xl font-bold bg-gradient-to-r from-orange-600 to-amber-500 bg-clip-text text-transparent tracking-tight">
             Recipe<span className="text-gray-800">Hub</span>
           </span>

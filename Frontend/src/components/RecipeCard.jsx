@@ -39,7 +39,7 @@ function RecipeCard({ recipe }) {
           />
         ) : (
           <div className="w-full h-full bg-gradient-to-br from-orange-100/50 to-amber-100 flex flex-col items-center justify-center text-orange-500">
-            <span className="text-4xl transition-transform duration-300 group-hover:scale-110">🥘</span>
+            <span className="text-4xl transition-transform duration-300 group-hover:scale-110">🍽️</span>
             <span className="text-xs font-semibold mt-2 text-orange-800/60 uppercase tracking-wider">No Image</span>
           </div>
         )}
@@ -89,7 +89,7 @@ function RecipeCard({ recipe }) {
         {/* Info Grid */}
         <div className="flex items-center gap-3 mb-4 text-xs font-medium text-gray-500">
           <span className="flex items-center gap-1">
-            ⏱️ {recipe.cookTime || 0} min
+            🕐 {recipe.cookTime || 0} min
           </span>
           <span className="text-gray-300">&bull;</span>
           <span className={`px-2 py-0.5 rounded-full border text-[10px] font-semibold uppercase tracking-wider ${getDifficultyBadgeStyles(recipe.difficulty)}`}>

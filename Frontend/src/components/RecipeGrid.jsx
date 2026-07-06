@@ -58,7 +58,7 @@ export default function RecipeGrid({
         </div>
 
         <div className="bg-gradient-to-br from-white to-emerald-50/20 rounded-2xl border border-emerald-100/60 p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-all duration-300">
-          <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center text-xl">⏱️</div>
+          <div className="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center text-xl">🕐</div>
           <div>
             <span className="block text-2xl font-black text-gray-900 leading-tight">{avgCookTime} min</span>
             <span className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mt-0.5">Avg. Cook Time</span>
@@ -66,7 +66,7 @@ export default function RecipeGrid({
         </div>
 
         <div className="bg-gradient-to-br from-white to-amber-50/20 rounded-2xl border border-amber-100/60 p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-all duration-300">
-          <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-xl">📅</div>
+          <div className="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-xl">📋</div>
           <div>
             <span className="block text-2xl font-black text-gray-900 leading-tight">{mealPlanCount} meals</span>
             <span className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mt-0.5">Meal Planner</span>
@@ -74,7 +74,7 @@ export default function RecipeGrid({
         </div>
 
         <div className="bg-gradient-to-br from-white to-rose-50/20 rounded-2xl border border-rose-100/60 p-5 flex items-center gap-4 shadow-sm hover:shadow-md transition-all duration-300">
-          <div className="w-12 h-12 rounded-xl bg-rose-500/10 text-rose-600 flex items-center justify-center text-xl">⭐</div>
+          <div className="w-12 h-12 rounded-xl bg-rose-500/10 text-rose-600 flex items-center justify-center text-xl">🔖</div>
           <div>
             <span className="block text-2xl font-black text-gray-900 leading-tight">{bookmarkCount} saved</span>
             <span className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mt-0.5">Bookmarks</span>

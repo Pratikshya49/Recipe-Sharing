@@ -13,11 +13,11 @@ function AddRecipe() {
   const [cookTime, setCookTime] = useState("");
   const [difficulty, setDifficulty] = useState("Easy");
   const [image, setImage] = useState("");
-  
+
   // Dynamic arrays and their current input state
   const [ingredients, setIngredients] = useState([]);
   const [currentIngredient, setCurrentIngredient] = useState("");
-  
+
   const [steps, setSteps] = useState([]);
   const [currentStep, setCurrentStep] = useState("");
 
@@ -27,13 +27,13 @@ function AddRecipe() {
   const handleAddIngredient = (e) => {
     e.preventDefault();
     if (!currentIngredient.trim()) return;
-    
+
     // Prevent duplicate entries for clarity
     if (ingredients.includes(currentIngredient.trim())) {
       setError("This ingredient is already in the list!");
       return;
     }
-    
+
     setIngredients([...ingredients, currentIngredient.trim()]);
     setCurrentIngredient("");
     setError("");
@@ -48,7 +48,7 @@ function AddRecipe() {
   const handleAddStep = (e) => {
     e.preventDefault();
     if (!currentStep.trim()) return;
-    
+
     setSteps([...steps, currentStep.trim()]);
     setCurrentStep("");
     setError("");
@@ -108,7 +108,8 @@ function AddRecipe() {
 
       {error && (
         <div className="text-sm bg-rose-50 text-rose-700 border border-rose-100 rounded-xl px-4 py-3 font-medium flex items-center gap-2">
-          <span>⚠️</span> {error}
+          {/* ⚠️ Professional warning icon — universally recognized error/validation indicator */}
+          <span aria-hidden="true">⚠️</span> {error}
         </div>
       )}
 

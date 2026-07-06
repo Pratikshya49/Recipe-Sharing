@@ -122,7 +122,8 @@ function RecipeDetail() {
             {/* Ingredients column */}
             <div className="md:col-span-2">
               <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <span>🛒</span> Ingredients
+                {/* 📝 Notepad — professional list/ingredients indicator */}
+                <span aria-hidden="true">📝</span> Ingredients
               </h2>
               <ul className="space-y-3">
                 {recipe.ingredients.map((ing, idx) => (
@@ -137,7 +138,8 @@ function RecipeDetail() {
             {/* Steps / Instructions column */}
             <div className="md:col-span-3">
               <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <span>👨‍🍳</span> Preparation Steps
+                {/* 📋 Clipboard — professional steps/process indicator */}
+                <span aria-hidden="true">📋</span> Preparation Steps
               </h2>
               <ol className="space-y-6">
                 {stepsToRender.map((step, idx) => (
