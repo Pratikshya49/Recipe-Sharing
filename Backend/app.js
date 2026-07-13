@@ -1,17 +1,22 @@
 import express from "express"
+import dotenv from "dotenv"
+import cors from "cors"
 // import recipes from "./data/recipes.js"
 import router from './src/routes/recipeRoutes.js'
 
 const app = express()
-
-app.use(express.json())
-
-
-const PORT = 3001
+dotenv.config() // call dotenv dont need to put root cause it is in the
 
 
+app.use(express.json())  // use of middlewaves using use  // CORSE is also middlewaves// request and response 
+app.use(cors()) // use of middlewaves using use // CORS is also misslewaves
 
-app.use("/api",router)
+
+
+const PORT = process.env.PORT || 3000 // execing file , if noot excess from front soo use of || 3000 s
+
+
+app.use("/api", router)
 
 
 // //for reading 
@@ -71,7 +76,7 @@ app.use("/api",router)
 
 
 app.listen(PORT, () => {
-     console.log(`Server is running on port ${PORT}`)
+    console.log(`Server is running on port ${PORT}`)
     //  console.log(`Backend is running on port ${PORT}`)
 })
 
