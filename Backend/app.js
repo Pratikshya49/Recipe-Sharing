@@ -3,6 +3,9 @@ import dotenv from "dotenv"
 import cors from "cors"
 // import recipes from "./data/recipes.js"
 import router from './src/routes/recipeRoutes.js'
+import dbConnection from './src/config/db.js'
+
+
 
 const app = express()
 dotenv.config() // call dotenv dont need to put root cause it is in the
@@ -17,6 +20,8 @@ const PORT = process.env.PORT || 3000 // execing file , if noot excess from fron
 
 
 app.use("/api", router)
+
+await dbConnection() // call the function to connect to the database
 
 
 // //for reading 
