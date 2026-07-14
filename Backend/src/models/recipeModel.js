@@ -1,23 +1,35 @@
-import recipes from '../../data/recipes.js'
+import recipe from '../../data/recipe.js'
+import { ObjectId } from 'mongodb'
 
-export function getAll(){
-    return recipes
+export async function getAll() {// takes time so it is async function
+    return recipe.find()
 }
 
-export function add(recipe){
-    recipes.push(recipe)
+export async function add(newRecipe) {
+    return recipe.create(newRecipe)
 }
 
-export function update(id, newRecipe){
-    const index = recipes.findIndex(r => r.id == id)
-    if(index === -1) return null
-    recipes.splice(index, 1, newRecipe)
-    return newRecipe
+
+
+export async function update(id, updatedRecipe) {
+    return recipe.findByIdAndUpdate(id, updatedRecipe, {
+        new: true,
+        runValidators: true,
+    })
+    // export async function update(id, updatedRecipe){
+    // const index = recipes.findIndex(r => r.id == id)
+    // if(index === -1) return null
+    // recipes.splice(index, 1, newRecipe)
+    // return newRecipe
 }
 
-export function remove(id){
-    const index = recipes.findIndex(r => r.id == id)
-    if(index === -1) return null
-    recipes.splice(index, 1)
-    return true
+
+// export function remove(id){
+//     const index = recipes.findIndex(r => r.id == id)
+//     if(index === -1) return null
+//     recipes.splice(index, 1)
+//     return true
+// }
+export async function remove(id) {
+    return recipe.findByIdAndDelete(id)
 }

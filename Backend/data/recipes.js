@@ -1,7 +1,15 @@
+// import mongoose from "mongoose"
+import recipe from "./recipe.js"
+// import dotenv from "dotenv"
+import dbConnection from '../src/config/db.js'
+
+// dotenv.config({
+//   path: './.env',
+// })
+
 // Mock recipe data representing 5 initial sample recipes.
 const recipes = [
   {
-    id: 1,
     title: "Classic Margherita Pizza",
     image: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=600",
     category: "Dinner",
@@ -19,7 +27,6 @@ const recipes = [
     ],
   },
   {
-    id: 2,
     title: "Avocado Toast",
     image: "https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?w=600",
     category: "Breakfast",
@@ -36,7 +43,6 @@ const recipes = [
     ],
   },
   {
-    id: 3,
     title: "Chicken Caesar Salad",
     image: "https://images.unsplash.com/photo-1546793665-c74683f339c1?w=600",
     category: "Lunch",
@@ -53,7 +59,6 @@ const recipes = [
     ],
   },
   {
-    id: 4,
     title: "Chocolate Lava Cake",
     image: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=600",
     category: "Dessert",
@@ -71,7 +76,6 @@ const recipes = [
     ],
   },
   {
-    id: 5,
     title: "Veggie Spring Rolls",
     image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=600",
     category: "Snacks",
@@ -89,4 +93,15 @@ const recipes = [
   },
 ];
 
-export default recipes;
+
+// const connection = mongoose.connect(process.env.MONGODB_URI)
+// await recipe.deleteMany({})
+
+// await recipe.insertMany(recipes)
+// export default recipes;
+
+await dbConnection()
+await recipe.deleteMany({})
+await recipe.insertMany(recipes)
+process.exit()
+export default recipes
