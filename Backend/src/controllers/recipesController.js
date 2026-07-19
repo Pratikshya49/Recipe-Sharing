@@ -1,16 +1,35 @@
 import * as recipeModel from '../models/recipeModel.js'
 
 export async function getRecipes(req, res){
-    const recipes = await recipeModel.getAll()
-    // return res.json(recipes)
-    return res.status(200).json(recipes)
-
+    try {
+        const { cuisine, search } = req.query
+        const recipes = await recipeModel.getAll({ cuisine, search })
+        return res.status(200).json(recipes)
+    } catch (error) {
+        return res.status(500).json({ message: "Error fetching recipes", error: error.message })
+    }
 }
 
 export async function addRecipes(req, res){
-    const recipe = req.body 
-     await recipeModel.add(recipe)
-    return res.status(201).json({"message": "Recipe added successfully","data":recipe})
+    try {
+        const recipe = req.body
+        const created = await recipeModel.add(recipe)
+        return res.status(201).json({ message: "Recipe added successfully", data: created })
+    } catch (error) {
+        return res.status(500).json({ message: "Error adding recipe", error: error.message })
+    }
+}
+
+export async function getRecipeById(req, res) {
+    try {
+        const result = await recipeModel.getById(req.params.id)
+        if (!result) {
+            return res.status(404).json({ message: "Recipe not found" })
+        }
+        return res.status(200).json(result)
+    } catch (error) {
+        return res.status(500).json({ message: "Error fetching recipe", error: error.message })
+    }
 }
 
 export async function updateRecipe(req, res) {

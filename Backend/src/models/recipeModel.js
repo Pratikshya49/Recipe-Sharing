@@ -1,12 +1,19 @@
 import recipe from '../../data/recipe.js'
 import { ObjectId } from 'mongodb'
 
-export async function getAll() {// takes time so it is async function
-    return recipe.find()
+export async function getAll({ cuisine, search } = {}) {// takes time so it is async function
+    const query = {}
+    if (cuisine) query.cuisine = cuisine
+    if (search) query.$text = { $search: search }
+    return recipe.find(query)
 }
 
 export async function add(newRecipe) {
     return recipe.create(newRecipe)
+}
+
+export async function getById(id) {
+    return recipe.findById(id)
 }
 
 

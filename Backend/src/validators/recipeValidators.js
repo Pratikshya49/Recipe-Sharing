@@ -65,7 +65,7 @@ export const recipeRules = [ // Validation rules for
 export const handelRecipeValidation = (req, res, next ) =>{ // contom middlewave soo we put next to go to nixt middlewave
     const errors = validationResult(req)
     if(!errors.isEmpty()){
-        res.status(400).json({errors: errors.array()})
+        return res.status(400).json({errors: errors.array()})
     }
     next()  //if no error then go to next middlewave 
 

@@ -7,6 +7,7 @@ import {recipeRules, handelRecipeValidation} from '../validators/recipeValidator
 const router = Router()
 
 router.get("/recipes", recipeController.getRecipes)
+router.get("/recipes/:id", recipeController.getRecipeById)
 router.post("/recipes", recipeRules, handelRecipeValidation, recipeController.addRecipes)
 router.put("/recipes/:id", recipeController.updateRecipe)
 router.delete("/recipes/:id", recipeController.deleteRecipe)
