@@ -2,7 +2,9 @@ import express from "express"
 import dotenv from "dotenv"
 import cors from "cors"
 // import recipes from "./data/recipes.js"
-import router from './src/routes/recipeRoutes.js'
+
+import authRoutes from './src/routes/authRoutes.js'
+import transactionRoutes from './src/routes/transactionRoutes.js'
 import dbConnection from './src/config/db.js'
 
 
@@ -19,7 +21,9 @@ app.use(cors()) // use of middlewaves using use // CORS is also misslewaves
 const PORT = process.env.PORT || 3000 // execing file , if noot excess from front soo use of || 3000 s
 
 
-app.use("/api", router)
+// app.use("/api", router)
+app.use('/auth',authRoutes)
+app.use(recipeRoutes)
 
 await dbConnection() // call the function to connect to the database
 
@@ -84,4 +88,3 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
     //  console.log(`Backend is running on port ${PORT}`)
 })
-
