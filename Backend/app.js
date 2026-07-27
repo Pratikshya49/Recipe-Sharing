@@ -31,8 +31,10 @@ const PORT = process.env.PORT || 3001
 app.get("/health", (req, res) => {
   res.status(200).json({ ok: true, message: "Server is healthy" });
 });
+app.use('/api/auth', authRoutes)
 app.use('/auth', authRoutes)
-app.use('/', recipeRoutes) // Mount recipes directly under root (e.g. /recipes)
+app.use('/api', recipeRoutes)
+app.use('/', recipeRoutes)
 
 await dbConnection()
 

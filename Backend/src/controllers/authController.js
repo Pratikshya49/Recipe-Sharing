@@ -29,6 +29,9 @@ export async function registerUser(req, res) {
       .status(400)
       .json({ error: 'Please provide user details correctly' })
   } catch (error) {
+    if (error.code === 11000) {
+      return res.status(400).json({ error: 'Email is already registered' })
+    }
     return res.status(400).json({ error: error.message || 'Please provide user details correctly' })
   }
 }
