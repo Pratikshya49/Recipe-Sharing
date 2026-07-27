@@ -24,9 +24,13 @@ app.use(cors(
 ))
 app.use(express.json())
 
+
 const PORT = process.env.PORT || 3001
 
 // Route mounts
+app.get("/health", (req, res) => {
+  res.status(200).json({ ok: true, message: "Server is healthy" });
+});
 app.use('/auth', authRoutes)
 app.use('/api', recipeRoutes) // Mount recipes under /api (e.g. /api/recipes) to match frontend
 
