@@ -32,7 +32,7 @@ app.get("/health", (req, res) => {
   res.status(200).json({ ok: true, message: "Server is healthy" });
 });
 app.use('/auth', authRoutes)
-app.use('/api', recipeRoutes) // Mount recipes under /api (e.g. /api/recipes) to match frontend
+app.use('/', recipeRoutes) // Mount recipes directly under root (e.g. /recipes)
 
 await dbConnection()
 
