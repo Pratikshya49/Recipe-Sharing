@@ -14,7 +14,7 @@ app.use(cookieParser())
 app.use(cors(
   {
     origin:(origin, callback)=>{
-      if(!origin || ['http://localhost:5173',process.env.FRONTEND_URL].includes(origin) ){
+      if(!origin || origin.startsWith('http://localhost:') || origin === process.env.FRONTEND_URL ){
         return callback(null, true)
       }
       callback(new Error("CORS origin not allowed"))

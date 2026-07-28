@@ -3,8 +3,7 @@ import axios from 'axios'
 const APIURL = import.meta.env.API_URL || 'https://recipe-sharing-shzs.onrender.com'
 
 const api = axios.create({
-
-  baseURL: `${APIURL}/auth`,
+  baseURL: APIURL,
 })
 
 export async function getRecipes() {
