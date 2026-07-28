@@ -14,7 +14,7 @@ app.use(cookieParser())
 app.use(cors(
   {
     origin:(origin, callback)=>{
-      if(!origin || origin.startsWith('http://localhost:') || origin === process.env.FRONTEND_URL ){
+      if(!origin || origin.startsWith('http://localhost:') || origin.endsWith('.netlify.app') || origin === process.env.FRONTEND_URL ){
         return callback(null, true)
       }
       callback(new Error("CORS origin not allowed"))
