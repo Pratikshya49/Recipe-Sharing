@@ -32,15 +32,21 @@ export default function Signup() {
       <h2 className="text-3xl font-bold text-brand-black mb-8">Sign Up</h2>
       {errors.length > 0 ? (
         <div className="mb-4 rounded border border-red-300 bg-red-50 p-3 text-sm text-red-700">
-          <p className="font-semibold">Could not log in:</p>
-          <ul className="list-disc pl-5">
+          <p className="font-semibold">Could not sign up:</p>
+          <ul className="list-disc pl-5 mb-2">
             {errors.map((err, i) => (
-              <li key={i}>{err.message}</li>
+              <li key={i}>{err.response?.data?.error || err.response?.data?.message || err.message}</li>
             ))}
           </ul>
+          <button 
+            onClick={() => setErrors([])} 
+            className="text-xs text-blue-600 underline cursor-pointer"
+          >
+            Try Again
+          </button>
         </div>
       ) : isLoading ? (
-        <p>Loggin In...</p>
+        <p>Signing Up...</p>
       ) : (
         <SignUpForm
           handleLogin={handleLogin}
