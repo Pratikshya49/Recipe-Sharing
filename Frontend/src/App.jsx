@@ -6,7 +6,9 @@ import AddRecipePage from "./pages/AddRecipePage";
 import RecipeDetail from "./pages/RecipeDetail";
 import MyRecipes from "./pages/MyRecipes";
 import RecipeContext from "./context/RecipeContext";
-import { getRecipes, addRecipe, updateRecipe, deleteRecipe } from "./api/recipeApi";
+import { getRecipes, addRecipe, updateRecipe, deleteRecipe } from "./api/recipeApi"; 
+import Login from './pages/Login.jsx';
+import Signup from './pages/Signup.jsx';
 
 export default function App() {
   const [recipes, setRecipes] = useState([]);
@@ -108,6 +110,8 @@ export default function App() {
           <Route path="/my-recipes" element={<MyRecipes />} />
           <Route path="/add" element={<AddRecipePage />} />
           <Route path="/recipe/:id" element={<RecipeDetail />} />
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
         </Route>
       </Routes>
     </RecipeContext.Provider>

@@ -5,10 +5,18 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  server:{
-    proxy:{
-      '/api':"http://localhost:3001/api",
-
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://recipe-sharing-shzs.onrender.com',
+        changeOrigin: true,
+        configure: (proxy) => {
+          proxy.on('proxyReq', (proxyReq) => {
+            proxyReq.removeHeader('origin');
+            proxyReq.removeHeader('Origin');
+          });
+        }
+      }
     }
   }
 })
