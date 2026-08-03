@@ -61,3 +61,28 @@ export async function loginUser(req, res) {
     return res.status(400).json({ error: error.message || 'Please provide user details correctly' })
   }
 }
+
+export const getCurrentUser = async (req, res) => {
+  try {
+    const user = await AuthModel.getUserById(req.user.userId || req.user._id)
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' })
+    }
+    return res.status(200).json({
+      data: {
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+        isAdmin: user.isAdmin,
+      },
+    })
+  } catch (error) {
+    return res.status(500).json({ error: error.message })
+  }
+}
+
+export const logoutUser = (req, res) => {
+  res.clearCookie('jvtToken', cookieOption)
+  res.clearCookie('jwtToken', cookieOption)
+  return res.status(200).json({ message: 'Logged out successfully' })
+}

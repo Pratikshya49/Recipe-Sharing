@@ -5,6 +5,7 @@ import authRoutes from './src/routes/authRoutes.js'
 import recipeRoutes from './src/routes/recipeRoutes.js'
 import dbConnection from './src/config/db.js'
 import cookieParser from 'cookie-parser'
+import aiRouter from "./src/routes/aiRoute.js";
 
 dotenv.config()
 
@@ -35,6 +36,7 @@ app.use('/api/auth', authRoutes)
 app.use('/auth', authRoutes)
 app.use('/api', recipeRoutes)
 app.use('/', recipeRoutes)
+app.use("/ai", aiRouter);
 
 await dbConnection()
 

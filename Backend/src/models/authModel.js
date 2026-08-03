@@ -14,3 +14,8 @@ export async function login({ email, password }) {
   const isValid = await bcrypt.compare(password, user.password)
   return isValid ? user : null
 }
+
+export const getUserById = async (id) => {
+  const user = await User.findById(id)
+  return user
+}
