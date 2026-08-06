@@ -49,6 +49,9 @@ export default function App() {
       setRecipes((prev) => [created, ...prev]);
     } catch (err) {
       console.error("Failed to add recipe:", err);
+      if (err.response?.data) {
+        console.error("Backend validation errors:", err.response.data);
+      }
     }
   }
 

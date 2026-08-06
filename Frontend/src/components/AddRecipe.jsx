@@ -13,6 +13,7 @@ function AddRecipe() {
   const [cookTime, setCookTime] = useState("");
   const [difficulty, setDifficulty] = useState("Easy");
   const [image, setImage] = useState("");
+  const [category, setCategory] = useState("Dinner");
 
   // Dynamic arrays and their current input state
   const [ingredients, setIngredients] = useState([]);
@@ -88,7 +89,8 @@ function AddRecipe() {
       cuisine: cuisine.trim(),
       cookTime: Number(cookTime),
       difficulty,
-      image: image.trim() || undefined, // undefined falls back to placeholder
+      category,
+      image: image.trim() || 'https://images.unsplash.com/photo-1478145046317-39f10e56b5e9?w=800',
       ingredients,
       steps,
     });
@@ -138,8 +140,8 @@ function AddRecipe() {
         </div>
       </div>
 
-      {/* Grid for Cook Time, Difficulty & Optional Image */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* Grid for Cook Time, Difficulty & Category */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Cook Time (Minutes)</label>
           <input
@@ -163,17 +165,35 @@ function AddRecipe() {
             <option value="Hard">Hard</option>
           </select>
         </div>
+
+        <div>
+          <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Category</label>
+          <select
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-150 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-sm bg-white cursor-pointer transition"
+          >
+            <option value="Dinner">Dinner</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Breakfast">Breakfast</option>
+            <option value="Dessert">Dessert</option>
+            <option value="Snacks">Snacks</option>
+          </select>
+        </div>
       </div>
 
       <div>
         <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Image URL (Optional)</label>
         <input
           type="url"
-          placeholder="e.g. https://images.unsplash.com/... (leaves blank for placeholder)"
+          placeholder="e.g. https://images.unsplash.com/... (leave blank to auto-generate)"
           value={image}
           onChange={(e) => setImage(e.target.value)}
           className="w-full px-4 py-3 border border-gray-150 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 text-sm transition"
         />
+        <p className="text-xs text-gray-400 mt-1.5">
+          Leave blank and we'll generate a photo of your finished dish ready to serve.
+        </p>
       </div>
 
       {/* Dynamic Ingredients List */}
