@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const APIURL = import.meta.env.VITE_API_URL || import.meta.env.API_URL || 'https://recipe-sharing-shzs.onrender.com'
+const APIURL = import.meta.env.VITE_API_URL || import.meta.env.API_URL || 'http://localhost:3001'
 
 const api = axios.create({
   baseURL: APIURL,

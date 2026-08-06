@@ -35,7 +35,15 @@ export async function getRecipeById(req, res) {
 export async function updateRecipe(req, res) {
     try {
         const id = req.params.id;
+        const existing = await recipeModel.getById(id);
+        if (!existing) {
+            return res.status(404).json({ message: "Recipe not found" });
+        }
+        if (existing.createdBy && existing.createdBy.toString() !== String(req.user?.userId)) {
+            return res.status(403).json({ message: "You are not authorized to update this recipe" });
+        }
         const updatedRecipe = req.body;
+        delete updatedRecipe.createdBy;
         const result = await recipeModel.update(id, updatedRecipe);
         if (!result) {
             return res.status(404).json({ message: "Recipe not found" });
@@ -49,6 +57,13 @@ export async function updateRecipe(req, res) {
 export async function deleteRecipe(req, res) {
     try {
         const id = req.params.id;
+        const existing = await recipeModel.getById(id);
+        if (!existing) {
+            return res.status(404).json({ message: "Recipe not found" });
+        }
+        if (existing.createdBy && existing.createdBy.toString() !== String(req.user?.userId)) {
+            return res.status(403).json({ message: "You are not authorized to delete this recipe" });
+        }
         const result = await recipeModel.remove(id);
         if (!result) {
             return res.status(404).json({ message: "Recipe not found" });

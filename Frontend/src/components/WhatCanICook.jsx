@@ -1,9 +1,12 @@
 import { useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import RecipeContext from '../context/RecipeContext';
+import { useAuth } from '../context/AuthContext';
 import { getAIRecipeRecommendation } from '../api/aiApi';
 
 export default function WhatCanICook({ onClose }) {
   const { addRecipe } = useContext(RecipeContext);
+  const { user } = useAuth();
   const [ingredients, setIngredients] = useState('');
   const [budget, setBudget] = useState(500);
   const [familyMembers, setFamilyMembers] = useState(4);
@@ -204,16 +207,25 @@ export default function WhatCanICook({ onClose }) {
                 </div>
               </div>
 
-              <button
-                onClick={handleSaveToRecipes}
-                disabled={saved}
-                className={`px-4 py-2 text-xs font-bold rounded-lg transition-all shadow-sm flex items-center gap-1.5 cursor-pointer ${saved
-                  ? 'bg-emerald-100 text-emerald-700 border border-emerald-300 cursor-default'
-                  : 'bg-orange-600 hover:bg-orange-700 text-white shadow-md hover:shadow-lg'
-                  }`}
-              >
-                {saved ? '✓ Saved to My Recipes' : '📌 Save to RecipeBox'}
-              </button>
+              {user ? (
+                <button
+                  onClick={handleSaveToRecipes}
+                  disabled={saved}
+                  className={`px-4 py-2 text-xs font-bold rounded-lg transition-all shadow-sm flex items-center gap-1.5 cursor-pointer ${saved
+                    ? 'bg-emerald-100 text-emerald-700 border border-emerald-300 cursor-default'
+                    : 'bg-orange-600 hover:bg-orange-700 text-white shadow-md hover:shadow-lg'
+                    }`}
+                >
+                  {saved ? '✓ Saved to My Recipes' : '📌 Save to RecipeBox'}
+                </button>
+              ) : (
+                <Link
+                  to="/login"
+                  className="px-4 py-2 text-xs font-bold rounded-lg bg-white text-orange-700 border border-orange-200 hover:bg-orange-50 transition-all shadow-sm flex items-center gap-1.5"
+                >
+                  🔐 Log in to save this recipe
+                </Link>
+              )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">

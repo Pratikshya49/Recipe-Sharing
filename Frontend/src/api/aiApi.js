@@ -21,7 +21,7 @@ export async function getAIRecipeRecommendation({ ingredients, budget, familyMem
       const cleaned = data.replace(/```json/g, '').replace(/```/g, '').trim();
       try {
         data = JSON.parse(cleaned);
-      } catch (parseErr) {
+      } catch {
         // Fallback object if raw text returned
         return {
           title: "AI Recommended Recipe",

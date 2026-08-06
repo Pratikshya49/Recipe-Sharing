@@ -6,11 +6,14 @@ import AddRecipePage from "./pages/AddRecipePage";
 import RecipeDetail from "./pages/RecipeDetail";
 import MyRecipes from "./pages/MyRecipes";
 import RecipeContext from "./context/RecipeContext";
+import { useAuth } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 import { getRecipes, addRecipe, updateRecipe, deleteRecipe } from "./api/recipeApi"; 
 import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
 
 export default function App() {
+  const { user } = useAuth();
   const [recipes, setRecipes] = useState([]);
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -44,7 +47,7 @@ export default function App() {
 
   async function handleAddRecipe(newRecipe) {
     try {
-      const response = await addRecipe(newRecipe);
+      const response = await addRecipe({ ...newRecipe, createdBy: user?._id });
       const created = { ...response.data.data, id: response.data.data._id, isUserAdded: true };
       setRecipes((prev) => [created, ...prev]);
     } catch (err) {
@@ -110,9 +113,30 @@ export default function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/my-recipes" element={<MyRecipes />} />
-          <Route path="/add" element={<AddRecipePage />} />
-          <Route path="/recipe/:id" element={<RecipeDetail />} />
+          <Route
+            path="/my-recipes"
+            element={
+              <ProtectedRoute>
+                <MyRecipes />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/add"
+            element={
+              <ProtectedRoute>
+                <AddRecipePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/recipe/:id"
+            element={
+              <ProtectedRoute>
+                <RecipeDetail />
+              </ProtectedRoute>
+            }
+          />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
         </Route>

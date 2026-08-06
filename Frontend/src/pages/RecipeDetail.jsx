@@ -1,11 +1,13 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useRecipes } from "../context/RecipeContext";
+import { useAuth } from "../context/AuthContext";
 import Button from "../components/Button";
 
 function RecipeDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { recipes, bookmarks, toggleBookmark, deleteRecipe } = useRecipes();
+  const { user } = useAuth();
 
   // Find the recipe matching the ID from state
   const recipe = recipes.find((r) => String(r.id) === id);
@@ -75,7 +77,13 @@ function RecipeDetail() {
           {/* Floating actions on Image */}
           <div className="absolute top-4 right-4 flex gap-2">
             <button
-              onClick={() => toggleBookmark(recipe.id)}
+              onClick={() => {
+                if (!user) {
+                  navigate("/login");
+                  return;
+                }
+                toggleBookmark(recipe.id);
+              }}
               aria-label="Toggle bookmark"
               className={`w-11 h-11 rounded-full flex items-center justify-center text-xl shadow-md border backdrop-blur-sm transition cursor-pointer ${
                 isBookmarked
@@ -110,11 +118,13 @@ function RecipeDetail() {
             </div>
 
             <div className="flex items-center gap-3">
-              <Button
-                text="🗑️ Delete Recipe"
-                variant="danger"
-                onClick={handleDelete}
-              />
+              {user && recipe.createdBy === user._id && (
+                <Button
+                  text="🗑️ Delete Recipe"
+                  variant="danger"
+                  onClick={handleDelete}
+                />
+              )}
             </div>
           </div>
 

@@ -1,17 +1,21 @@
 import { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import WhatCanICook from "./WhatCanICook";
+import { useAuth } from "../context/AuthContext";
 
 export default function Navbar({ active: propActive, onChange }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, logout } = useAuth();
   const [showAiBar, setShowAiBar] = useState(true);
 
-  const links = [
+  const allLinks = [
     { name: 'Browse Recipes', path: '/' },
     { name: 'My Recipes', path: '/my-recipes' },
     { name: 'Add Recipe', path: '/add' }
   ];
+
+  const links = user ? allLinks : allLinks.filter((link) => link.path === '/');
 
   // Determine active tab dynamically from path or fallback to prop
   const getActiveTab = () => {
@@ -31,6 +35,11 @@ export default function Navbar({ active: propActive, onChange }) {
     } else {
       navigate(link.path);
     }
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/");
   };
 
   return (
@@ -81,6 +90,43 @@ export default function Navbar({ active: propActive, onChange }) {
               </li>
             ))}
           </ul>
+
+          <div className="flex items-center gap-2">
+            {user ? (
+              <>
+                <div className="flex items-center gap-2">
+                  <span className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-600 to-amber-500 text-white text-sm font-bold flex items-center justify-center">
+                    {user.name ? user.name.charAt(0).toUpperCase() : "U"}
+                  </span>
+                  <span className="hidden sm:inline text-sm font-semibold text-gray-700 max-w-[120px] truncate">
+                    {user.name}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="rounded-lg px-3 py-2 text-sm font-semibold text-gray-600 hover:text-rose-600 hover:bg-rose-50 border border-gray-200 hover:border-rose-200 transition-all duration-300 cursor-pointer"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="rounded-lg px-3 py-2 text-sm font-semibold text-gray-600 hover:text-orange-600 hover:bg-orange-50/50 transition-all duration-300"
+                >
+                  Log In
+                </Link>
+                <Link
+                  to="/signup"
+                  className="rounded-lg px-3.5 py-2 text-sm font-semibold text-white bg-orange-600 hover:bg-orange-700 shadow-sm shadow-orange-200 transition-all duration-300"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
+          </div>
         </div>
       </nav>
     </header>

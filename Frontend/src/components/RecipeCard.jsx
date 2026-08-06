@@ -1,9 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRecipes } from "../context/RecipeContext";
+import { useAuth } from "../context/AuthContext";
 
 function RecipeCard({ recipe }) {
   const { bookmarks, toggleBookmark, deleteRecipe } = useRecipes();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const isBookmarked = bookmarks.includes(recipe.id);
+  const isOwner = user && recipe.createdBy === user._id;
+
+  const handleBookmark = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    toggleBookmark(recipe.id);
+  };
 
   // Difficulty badge colors mapping
   const getDifficultyBadgeStyles = (difficulty) => {
@@ -45,21 +59,19 @@ function RecipeCard({ recipe }) {
         )}
 
         {/* Delete Button (Top Left) */}
-        <button
-          onClick={handleDelete}
-          aria-label="Delete recipe"
-          className="absolute top-2 left-2 w-9 h-9 rounded-full bg-white/95 text-gray-500 hover:text-rose-600 hover:bg-rose-50 shadow-sm border border-gray-100/80 flex items-center justify-center text-sm transition-all duration-200 opacity-0 group-hover:opacity-100 cursor-pointer"
-        >
-          🗑️
-        </button>
+        {isOwner && (
+          <button
+            onClick={handleDelete}
+            aria-label="Delete recipe"
+            className="absolute top-2 left-2 w-9 h-9 rounded-full bg-white/95 text-gray-500 hover:text-rose-600 hover:bg-rose-50 shadow-sm border border-gray-100/80 flex items-center justify-center text-sm transition-all duration-200 opacity-0 group-hover:opacity-100 cursor-pointer"
+          >
+            🗑️
+          </button>
+        )}
 
         {/* Bookmark Button (Top Right) */}
         <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleBookmark(recipe.id);
-          }}
+          onClick={handleBookmark}
           aria-label="Toggle bookmark"
           className={`absolute top-2 right-2 w-9 h-9 rounded-full flex items-center justify-center text-lg shadow-sm border transition-all duration-200 cursor-pointer ${
             isBookmarked
