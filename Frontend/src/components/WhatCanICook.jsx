@@ -44,13 +44,16 @@ export default function WhatCanICook({ onClose }) {
 
   const handleSaveToRecipes = async () => {
     if (!recipe) return;
+    const title = recipe.title || 'AI Recommended Recipe';
+    const keywords = title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().split(/\s+/).slice(0, 3).join(',');
+    const fallbackImage = `https://loremflickr.com/800/600/${keywords}`;
     try {
       await addRecipe({
-        title: recipe.title || 'AI Recommended Recipe',
+        title,
         cuisine: recipe.cuisine || 'Fusion',
         cookTime: Number(recipe.cookTime) || 30,
         difficulty: recipe.difficulty || 'Easy',
-        image: 'https://images.unsplash.com/photo-1478145046317-39f10e56b5e9?w=800',
+        image: recipe.image || fallbackImage,
         category: 'Dinner',
         ingredients: recipe.ingredients || [],
         steps: recipe.steps || [],

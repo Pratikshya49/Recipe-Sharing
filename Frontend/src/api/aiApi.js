@@ -8,7 +8,7 @@ const api = axios.create({
 });
 
 export async function getAIRecipeRecommendation({ ingredients, budget, familyMembers }) {
-  const prompt = `Act as an expert chef. Recommend a recipe for ${familyMembers || 2} family members within a total budget of NPR ${budget || 500} (Nepalese Rupees). Available ingredients: ${ingredients || 'any common kitchen ingredients'}. Return a JSON object ONLY with the following exact format: {"title": "String", "cuisine": "String", "cookTime": 30, "difficulty": "Easy", "ingredients": ["ing 1", "ing 2"], "steps": ["step 1", "step 2"]}`;
+  const prompt = `Act as an expert chef. Recommend a recipe for ${familyMembers || 2} family members within a total budget of NPR ${budget || 500} (Nepalese Rupees). Available ingredients: ${ingredients || 'any common kitchen ingredients'}. Return a JSON object ONLY with the following exact format: {"title": "String", "cuisine": "String", "cookTime": 30, "difficulty": "Easy", "image": "direct HTTPS URL of a professional food photograph of this exact dish, e.g. an images.unsplash.com URL ending in ?w=800&auto=format", "ingredients": ["ing 1", "ing 2"], "steps": ["step 1", "step 2"]}`;
 
   try {
     const response = await api.post('/ai/recipe-recommend', { query: prompt });
@@ -28,6 +28,7 @@ export async function getAIRecipeRecommendation({ ingredients, budget, familyMem
           cuisine: "Fusion",
           cookTime: 25,
           difficulty: "Medium",
+          image: "",
           ingredients: ingredients ? ingredients.split(',').map(i => i.trim()) : ["Various fresh ingredients"],
           steps: [data]
         };
