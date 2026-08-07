@@ -22,3 +22,11 @@ export function getCurrentUser() {
 export function logoutUser() {
   return api.post('/logout')
 }
+
+export function getBookmarks() {
+  return api.get('/bookmarks')
+}
+
+export function toggleBookmark(recipeId) {
+  return api.post('/bookmarks/toggle', { recipeId })
+}

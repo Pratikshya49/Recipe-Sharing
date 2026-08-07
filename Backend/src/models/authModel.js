@@ -19,3 +19,23 @@ export const getUserById = async (id) => {
   const user = await User.findById(id)
   return user
 }
+
+export const getBookmarks = async (userId) => {
+  const user = await User.findById(userId)
+  return user?.bookmarks || []
+}
+
+export const toggleBookmark = async (userId, recipeId) => {
+  const user = await User.findById(userId)
+  if (!user) throw new Error('User not found')
+  const bookmarks = user.bookmarks || []
+  const index = bookmarks.findIndex((b) => String(b) === String(recipeId))
+  if (index === -1) {
+    bookmarks.push(recipeId)
+  } else {
+    bookmarks.splice(index, 1)
+  }
+  user.bookmarks = bookmarks
+  await user.save()
+  return bookmarks
+}

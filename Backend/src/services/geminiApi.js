@@ -13,9 +13,15 @@ RULES:
 4. Keep responses concise, accurate, and helpful. Do not include unnecessary introductions or explanations.
 `;
 
-const ai = new GoogleGenAI({
-    apiKey: process.env.GEMINI_API_KEY,
-});
+const apiKey = process.env.GEMINI_API_KEY;
+
+if (!apiKey) {
+    throw new Error(
+        "GEMINI_API_KEY is not set. Add it to the Render dashboard environment variables for the backend service."
+    );
+}
+
+const ai = new GoogleGenAI({ apiKey });
 
 export const generateAIResponse = async (prompt) => {
     const interaction = await ai.interactions.create({

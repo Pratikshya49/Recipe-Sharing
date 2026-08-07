@@ -1,9 +1,11 @@
 import { useRecipes } from "../context/RecipeContext";
+import { useAuth } from "../context/AuthContext";
 import RecipeCard from "../components/RecipeCard";
 import { Link } from "react-router-dom";
 
 export default function MyRecipes() {
   const { recipes, bookmarks, loading } = useRecipes();
+  const { user } = useAuth();
 
   if (loading) {
     return (
@@ -14,7 +16,9 @@ export default function MyRecipes() {
   }
 
   // Filter recipes
-  const myCreatedRecipes = recipes.filter(r => r.isUserAdded);
+  const myCreatedRecipes = recipes.filter(
+    (r) => r.isUserAdded || (user && r.createdBy && String(r.createdBy) === String(user._id))
+  );
   const bookmarkedRecipes = recipes.filter(r => bookmarks.includes(r.id));
 
   return (

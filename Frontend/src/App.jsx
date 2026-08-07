@@ -9,6 +9,7 @@ import RecipeContext from "./context/RecipeContext";
 import { useAuth } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { getRecipes, addRecipe, updateRecipe, deleteRecipe } from "./api/recipeApi"; 
+import { getBookmarks, toggleBookmark as toggleBookmarkApi } from "./api/authApi"; 
 import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
 
@@ -80,10 +81,37 @@ export default function App() {
     }
   }
 
+  const userId = user?._id;
+
+  useEffect(() => {
+    if (!userId) {
+      setBookmarks([]);
+      return;
+    }
+    let active = true;
+    getBookmarks()
+      .then((res) => {
+        if (active) setBookmarks(res.data?.data || []);
+      })
+      .catch((err) => {
+        console.error("Failed to load bookmarks:", err);
+        if (active) setBookmarks([]);
+      });
+    return () => {
+      active = false;
+    };
+  }, [userId]);
+
   function toggleBookmark(id) {
-    setBookmarks((prev) =>
-      prev.includes(id) ? prev.filter((rId) => rId !== id) : [...prev, id]
-    );
+    if (!userId) {
+      setBookmarks((prev) =>
+        prev.includes(id) ? prev.filter((rId) => rId !== id) : [...prev, id]
+      );
+      return;
+    }
+    toggleBookmarkApi(id)
+      .then((res) => setBookmarks(res.data?.data || []))
+      .catch((err) => console.error("Failed to toggle bookmark:", err));
   }
 
   const value = {

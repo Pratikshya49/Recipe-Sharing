@@ -74,8 +74,34 @@ export const getCurrentUser = async (req, res) => {
         email: user.email,
         name: user.name,
         isAdmin: user.isAdmin,
+        bookmarks: user.bookmarks || [],
       },
     })
+  } catch (error) {
+    return res.status(500).json({ error: error.message })
+  }
+}
+
+export const getBookmarks = async (req, res) => {
+  try {
+    const bookmarks = await AuthModel.getBookmarks(req.user.userId || req.user._id)
+    return res.status(200).json({ data: bookmarks })
+  } catch (error) {
+    return res.status(500).json({ error: error.message })
+  }
+}
+
+export const toggleBookmark = async (req, res) => {
+  try {
+    const { recipeId } = req.body
+    if (!recipeId) {
+      return res.status(400).json({ error: 'recipeId is required' })
+    }
+    const bookmarks = await AuthModel.toggleBookmark(
+      req.user.userId || req.user._id,
+      recipeId
+    )
+    return res.status(200).json({ data: bookmarks })
   } catch (error) {
     return res.status(500).json({ error: error.message })
   }

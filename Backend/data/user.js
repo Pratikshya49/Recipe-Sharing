@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema(
     password: { type: String, minlength: 6, required: true, trim: true },
     isAdmin: { type: Boolean, default: false },
     imageURL: { type: String },
+    bookmarks: [{ type: String }],
   },
   { timestamps: true }
 )
