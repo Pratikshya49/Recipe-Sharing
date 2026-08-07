@@ -1,4 +1,5 @@
 import * as recipeModel from '../models/recipeModel.js'
+import { getUserById } from '../models/authModel.js'
 
 export async function getRecipes(req, res){
     try {
@@ -13,6 +14,10 @@ export async function getRecipes(req, res){
 export async function addRecipes(req, res){
     try {
         const recipe = req.body
+        if (req.user?.userId) {
+            const user = await getUserById(req.user.userId)
+            recipe.creatorName = user?.name || null
+        }
         const created = await recipeModel.add(recipe)
         return res.status(201).json({ message: "Recipe added successfully", data: created })
     } catch (error) {

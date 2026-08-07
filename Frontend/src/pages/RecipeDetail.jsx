@@ -114,6 +114,12 @@ function RecipeDetail() {
                 <span className={`px-2.5 py-0.5 rounded-full text-xs ${getDifficultyBadgeStyles(recipe.difficulty)}`}>
                   {recipe.difficulty} Difficulty
                 </span>
+                {recipe.creatorName && (
+                  <>
+                    <span>&bull;</span>
+                    <span className="flex items-center gap-1">👤 Posted by <span className="text-orange-700">{recipe.creatorName}</span></span>
+                  </>
+                )}
               </div>
             </div>
 

@@ -98,6 +98,16 @@ function RecipeCard({ recipe }) {
           </h3>
         </div>
 
+        {recipe.creatorName && (
+          <p className="text-xs font-medium text-gray-400 mb-2 flex items-center gap-1.5">
+            <span>👤</span>
+            <span>
+              Posted by{" "}
+              <span className="text-orange-700 font-semibold">{recipe.creatorName}</span>
+            </span>
+          </p>
+        )}
+
         {/* Info Grid */}
         <div className="flex items-center gap-3 mb-4 text-xs font-medium text-gray-500">
           <span className="flex items-center gap-1">

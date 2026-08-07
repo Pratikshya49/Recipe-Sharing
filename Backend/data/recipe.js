@@ -9,7 +9,8 @@ const recipeSchema = new mongoose.Schema({
     cookTime: {required: true, type: Number},
     ingredients: [{type: String, required: true, trim: true}],
     steps: [{type: String, required: true, trim: true}],
-    createdBy: {type: String, required: false} // Added to fulfill Week 4 requirements (usually set to required:true once auth is added in Week 5)
+    createdBy: {type: String, required: false}, // Added to fulfill Week 4 requirements (usually set to required:true once auth is added in Week 5)
+    creatorName: {type: String, required: false} // Display name of the user who posted the recipe
 })
 
 
