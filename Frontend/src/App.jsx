@@ -12,6 +12,7 @@ import { getRecipes, addRecipe, updateRecipe, deleteRecipe } from "./api/recipeA
 import { getBookmarks, toggleBookmark as toggleBookmarkApi } from "./api/authApi"; 
 import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
+import Contact from './pages/Contact.jsx';
 
 export default function App() {
   const { user } = useAuth();
@@ -167,6 +168,7 @@ export default function App() {
           />
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
+          <Route path="contact" element={<Contact />} />
         </Route>
       </Routes>
     </RecipeContext.Provider>
